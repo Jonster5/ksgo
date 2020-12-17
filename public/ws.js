@@ -1,11 +1,4 @@
-let ws;
-try {
-    ws = new WebSocket('ws://localhost:8000');
-} catch {
-    ws = new WebSocket('wss://ksgo.herokuapp.com');
-}
-
-
+const ws = new WebSocket('wss://ksgo.herokuapp.com');
 ws.onopen = () => {
     user = new User();
 };
