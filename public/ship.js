@@ -1,3 +1,4 @@
+'use strict';
 class Ship {
     constructor(stage, x = 0, y = 0) {
         this._x = x;
@@ -56,9 +57,10 @@ class Ship {
         this.vy = 0;
         this.accelerationX = 0.2;
         this.accelerationY = 0.2;
-        this.frictionX = 0.999;
-        this.frictionY = 0.999;
+        this.frictionX = 0.998;
+        this.frictionY = 0.998;
         this.sprite.mass = 5;
+        this.maxSpeed = 5;
 
         this.rotationSpeed = 0;
         this.moveForward = false;
@@ -103,7 +105,21 @@ class Ship {
         this.x += this.vx;
         this.y += this.vy;
 
-        Pebble.contain(this.sprite, stage.localBounds, true);
+        if (this.sprite.centerX > stage.width) {
+            this.x = -this.sprite.halfWidth;
+            this.vx *= 0.7;
+        } else if (this.sprite.centerX < 0) {
+            this.x = stage.width - this.sprite.halfWidth;
+            this.vx *= 0.7;
+        }
+
+        if (this.sprite.centerY > stage.height) {
+            this.y = -this.sprite.halfHeight;
+            this.vy *= 0.7;
+        } else if (this.sprite.centerY < 0) {
+            this.y = stage.height - this.sprite.halfHeight;
+            this.vy *= 0.7;
+        }
     }
 }
 
@@ -115,6 +131,8 @@ class User extends Ship {
         this.k_d = false;
         this.k_r = false;
         this.k_l = false;
+
+        this.id = '';
 
         this.turnSpeed = 0.2;
         this.acceleration = 1;

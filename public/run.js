@@ -1,3 +1,4 @@
+'use strict';
 Pebble.interpolationData.FPS = 60;
 
 let animator;
@@ -14,7 +15,7 @@ function Animate(timestamp) {
 
             user.update();
 
-            if (users) users.forEach((u) => u.update());
+            // if (users) users.forEach((u) => u.update());
         })
     );
 }

@@ -1,3 +1,4 @@
+'use strict';
 const gamewindow = document.getElementById('gamewindow');
 const canvas = new Pebble.Canvas(
     gamewindow,
@@ -14,11 +15,6 @@ let user;
 const stage = new Pebble.Stage(canvas.width, canvas.height);
 
 const assets = new Pebble.AssetLoader();
-
-let leftArrow = Pebble.Keyboard(38, document.body),
-    upArrow = Pebble.Keyboard(39, document.body),
-    rightArrow = Pebble.Keyboard(40, document.body),
-    downArrow = Pebble.Keyboard(41, document.body);
 
 (async() => {
     await assets.load([
