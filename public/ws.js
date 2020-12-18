@@ -29,7 +29,13 @@ ws.onmessage = ({ data }) => {
             id: message.content,
             dis: new Remote(message.content),
         });
-    } else if (message.id === 'remuser') {} else if (message.id === 'u_up') {
+    } else if (message.id === 'remuser') {
+        stage.remove(users.find((u) => u.id === message.content).dis.sprite);
+        users.splice(
+            users.findIndex((u) => u.id === message.content),
+            1
+        );
+    } else if (message.id === 'u_up') {
         users
             .find((u) => u.id === message.content.id)
             .dis.update(...message.content.pos);

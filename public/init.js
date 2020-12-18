@@ -16,6 +16,8 @@ const stage = new Pebble.Stage(canvas.width, canvas.height);
 
 const assets = new Pebble.AssetLoader();
 
+Pebble.interpolationData.FPS = 60;
+
 (async() => {
     await assets.load([
         'run.js',

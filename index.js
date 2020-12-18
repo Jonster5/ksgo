@@ -27,20 +27,14 @@ WSS.on('connection', (ws, req) => {
     ws.on('open', (data) => {
         // users.push(ws);
     });
-    ws.on('close', (data) => {
-        // console.log(`shot ${users.find((u) => u.socket === ws).id}`);
-        users.splice(users.findIndex((u) => u.socket === ws));
+    ws.on('close', () => {
         WSS.clients.forEach((client) => {
             if (client.readyState === WebSocket.OPEN) {
                 client.send(
-                    format(
-                        'userarray',
-                        users.map((i) => i.id)
-                    )
+                    format('remuser', users.find((u) => u.socket === ws).id)
                 );
             }
         });
-
         console.clear();
         console.log(users.map((u) => u.id));
     });

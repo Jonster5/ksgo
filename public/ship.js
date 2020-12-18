@@ -102,8 +102,8 @@ class Ship {
             this.vy *= this.frictionY;
         }
 
-        this.x += this.vx;
-        this.y += this.vy;
+        this.x += this.vx * 0.3;
+        this.y += this.vy * 0.3;
 
         if (this.sprite.centerX > stage.width) {
             this.x = -this.sprite.halfWidth;
@@ -140,11 +140,11 @@ class User extends Ship {
         this.keyDownHandler = window.addEventListener('keydown', (event) => {
             if (event.key === 'ArrowLeft') {
                 this.k_l = true;
-                this.rotationSpeed = -0.1;
+                this.rotationSpeed = -0.075;
                 this.sprite.trailR.visible = true;
             }
             if (event.key === 'ArrowRight') {
-                this.rotationSpeed = 0.1;
+                this.rotationSpeed = 0.075;
                 this.k_r = true;
                 this.sprite.trailL.visible = true;
             }
