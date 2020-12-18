@@ -37,6 +37,7 @@ Pebble.interpolationData.FPS = 60;
         'ship.js',
         'ws.js',
         'images/ship.png',
+        'images/ship_remote.png',
         'images/shipfire.png',
         'images/shipfire-1.png',
         'images/explosion.png',
