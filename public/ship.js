@@ -108,37 +108,6 @@ class Ship {
     set mass(value) {
         this.sprite.mass = value;
     }
-
-    update() {
-        this.rotation += this.rotationSpeed;
-
-        if (this.moveForward) {
-            this.vx += this.accelerationX * Math.cos(this.rotation);
-            this.vy += this.accelerationY * Math.sin(this.rotation);
-        } else {
-            this.vx *= this.frictionX;
-            this.vy *= this.frictionY;
-        }
-
-        this.x += this.vx * 0.3;
-        this.y += this.vy * 0.3;
-
-        if (this.sprite.centerX > stage.width) {
-            this.x = -this.sprite.halfWidth;
-            this.vx *= 0.7;
-        } else if (this.sprite.centerX < 0) {
-            this.x = stage.width - this.sprite.halfWidth;
-            this.vx *= 0.7;
-        }
-
-        if (this.sprite.centerY > stage.height) {
-            this.y = -this.sprite.halfHeight;
-            this.vy *= 0.7;
-        } else if (this.sprite.centerY < 0) {
-            this.y = stage.height - this.sprite.halfHeight;
-            this.vy *= 0.7;
-        }
-    }
 }
 
 class User extends Ship {
@@ -156,21 +125,21 @@ class User extends Ship {
         this.acceleration = 1;
 
         this.keyDownHandler = window.addEventListener('keydown', (event) => {
-            if (event.key === 'ArrowLeft') {
+            if (event.key === 'ArrowLeft' && this.energy > 0) {
                 this.k_l = true;
                 this.rotationSpeed = -0.075;
                 this.sprite.trailR.visible = true;
             }
-            if (event.key === 'ArrowRight') {
+            if (event.key === 'ArrowRight' && this.energy > 0) {
                 this.rotationSpeed = 0.075;
                 this.k_r = true;
                 this.sprite.trailL.visible = true;
             }
-            if (event.key === 'ArrowUp') {
+            if (event.key === 'ArrowUp' && this.energy > 0) {
                 this.moveForward = true;
                 this.sprite.exhaust.visible = true;
             }
-            if (event.key === 'ArrowDown') {}
+            if (event.key === 'ArrowDown' && this.energy > 0) {}
         });
 
         this.keyUpHandler = window.addEventListener('keyup', (event) => {
@@ -190,6 +159,50 @@ class User extends Ship {
             }
             if (event.key === 'ArrowDown') {}
         });
+    }
+    update() {
+        if (this.energy > 0) this.rotation += this.rotationSpeed;
+        let cost = -1;
+
+        if (this.moveForward && this.energy > 0) {
+            this.vx += this.accelerationX * Math.cos(this.rotation);
+            this.vy += this.accelerationY * Math.sin(this.rotation);
+        } else {
+            this.vx *= this.frictionX;
+            this.vy *= this.frictionY;
+        }
+
+        if (this.energy <= 0) {
+            this.sprite.trailL.visible = false;
+            this.sprite.trailR.visible = false;
+            this.sprite.exhaust.visible = false;
+        }
+
+        if (this.rotationSpeed !== 0) cost += 0.6;
+        if (this.moveForward) cost += 1.2;
+
+        this.x += this.vx * 0.3;
+        this.y += this.vy * 0.3;
+
+        this.energy -= cost;
+        if (this.energy > 100) this.energy = 100;
+        if (this.energy < 0) this.energy = 0;
+
+        if (this.sprite.centerX > stage.width) {
+            this.x = -this.sprite.halfWidth;
+            this.vx *= 0.7;
+        } else if (this.sprite.centerX < 0) {
+            this.x = stage.width - this.sprite.halfWidth;
+            this.vx *= 0.7;
+        }
+
+        if (this.sprite.centerY > stage.height) {
+            this.y = -this.sprite.halfHeight;
+            this.vy *= 0.7;
+        } else if (this.sprite.centerY < 0) {
+            this.y = stage.height - this.sprite.halfHeight;
+            this.vy *= 0.7;
+        }
     }
 }
 

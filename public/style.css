@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Concert+One&display=swap');
 html,
 body {
     margin: 0;
@@ -33,4 +34,19 @@ body {
     max-width: unset;
     background: url('images/backgr.png');
     overflow: hidden;
+}
+
+.ui_element {
+    box-sizing: border-box;
+    font-family: 'Concert One', sans-serif;
+    font-size: 3vw;
+    width: 100%;
+    text-align: center;
+    height: auto;
+    color: gold;
+}
+
+.ui_element strong {
+    font-size: 1.2vw;
+    color: black;
 }
