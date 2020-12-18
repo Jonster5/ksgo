@@ -89,12 +89,13 @@ WSS.on('connection', (ws, req) => {
     });
 });
 
-setInterval(() => {
-    console.clear();
-    console.log(upos);
+function Update() {
+    requestAnimationFrame(Update);
     WSS.clients.forEach((client) => {
         if (client.readyState === WebSocket.OPEN) {
             client.send(format('u_up', upos));
         }
     });
-}, 20);
+}
+
+Update();
