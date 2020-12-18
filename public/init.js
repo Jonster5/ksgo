@@ -1,12 +1,25 @@
 'use strict';
 const gamewindow = document.getElementById('gamewindow');
-const canvas = new Pebble.Canvas(
-    gamewindow,
-    gamewindow.getBoundingClientRect().width,
-    gamewindow.getBoundingClientRect().height,
-    'none',
-    'none'
-);
+const canvas = new Pebble.Canvas(gamewindow, 1920, 1080, 'none', 'none');
+
+canvas.domElement.style.width = `${gamewindow.getBoundingClientRect().width}px`;
+canvas.domElement.style.height = `auto`;
+
+document.addEventListener('resize', () => {
+    canvas.domElement.style.width = `${
+		gamewindow.getBoundingClientRect().width
+	}px`;
+    canvas.domElement.style.height = `auto`;
+});
+
+// let scaleX, scaleY, scale;
+
+// scaleX = canvas.domElement.getBoundingClientRect().width / this.width;
+// scaleY = canvas.domElement.getBoundingClientRect().height / this.height;
+
+// scale = Math.min(scaleX, scaleY);
+// canvas.domElement.style.transformOrigin = '0 0';
+// canvas.domElement.style.transform = 'scale(' + scale + ')';
 
 let users = [];
 
