@@ -97,4 +97,4 @@ function Update() {
     });
 }
 
-setInterval(Update, 25);
+setInterval(Update, 16);
