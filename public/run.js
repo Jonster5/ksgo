@@ -12,36 +12,21 @@ function Animate(timestamp) {
         Pebble.getLagOffset(timestamp, () => {
             if (ws.readyState !== ws.OPEN) return;
 
-            user.update();
+            if (user.alive) {
+                user.update();
+                user.frame = 0;
+            } else if (!user.alive) {
+                user.frame = 1;
+            }
 
             users.forEach((u) => {
-                if (u.dis.health <= 0) {
-                    ws.send(
-                        format('u_up', {
-                            id: u.id,
-                            alive: false,
-                            energy: 0,
-                            health: 0,
-                            pos: [
-                                u.dis.x,
-                                u.dis.y,
-                                u.dis.rotation,
-                                u.dis.sprite.exhaust.visible,
-                                u.dis.sprite.trailL.visible,
-                                u.dis.sprite.trailR.visible,
-                            ],
-                        })
-                    );
-                }
-                // if () {
-
-                // }
+                if (u.dis.health <= 0 || u.dis.alive === false) u.dis.kill();
             });
 
             ws.send(
                 format('u_up', {
                     id: user.id,
-                    alive: true,
+                    alive: user.alive,
                     energy: user.energy,
                     health: user.health,
                     pos: [

@@ -11,7 +11,11 @@ class Ship {
 
         this.stage = stage;
 
-        this.sprite = Pebble.Sprite(assets['images/ship.png']);
+        this.sprite = Pebble.Sprite([
+            assets['images/ship.png'],
+            assets['images/explosion.png'],
+        ]);
+        // Pebble.addStatePlayer(this.sprite);
         this.sprite.width = 32;
         this.sprite.height = 24;
         this.sprite.pivotX = 0.5;
@@ -62,6 +66,22 @@ class Ship {
 
         this.rotationSpeed = 0;
         this.moveForward = false;
+    }
+    get frame() {
+        return this.sprite.currentFrame;
+    }
+    set frame(value) {
+        this.sprite.gotoAndStop(value);
+
+        if (value === 0) {
+            this.sprite.width = 32;
+            this.sprite.height = 24;
+            this.sprite.pivotX = 0.5;
+        } else if (value === 1) {
+            this.sprite.width = 48;
+            this.sprite.height = 48;
+            this.sprite.pivotX = 0.5;
+        }
     }
 
     get x() {
@@ -185,5 +205,23 @@ class Remote extends Ship {
         this.sprite.exhaust.visible = exhaust;
         this.sprite.trailL.visible = trailL;
         this.sprite.trailR.visible = trailR;
+    }
+    kill() {
+        ws.send(
+            format('u_up', {
+                id: this.id,
+                alive: false,
+                energy: 0,
+                health: 0,
+                pos: [
+                    this.x,
+                    this.y,
+                    this.rotation,
+                    this.sprite.exhaust.visible,
+                    this.sprite.trailL.visible,
+                    this.sprite.trailR.visible,
+                ],
+            })
+        );
     }
 }

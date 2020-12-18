@@ -1,7 +1,7 @@
 'use strict';
 
-// const ws = new WebSocket('wss://ksgo.herokuapp.com');
-const ws = new WebSocket('ws://192.168.1.157:8000');
+const ws = new WebSocket('wss://ksgo.herokuapp.com');
+// const ws = new WebSocket('ws://192.168.1.157:8000');
 
 const format = (name = '', data) => JSON.stringify({ id: name, content: data });
 const parse = (message = '') => JSON.parse(message);
@@ -42,7 +42,7 @@ ws.onmessage = ({ data }) => {
                 u.dis.health = message.content[u.id].health;
                 u.dis.alive = message.content[u.id].alive;
             } catch (err) {
-                console.error(err);
+                // console.error(err);
             }
         });
     }

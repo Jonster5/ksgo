@@ -39,6 +39,7 @@ Pebble.interpolationData.FPS = 60;
         'images/ship.png',
         'images/shipfire.png',
         'images/shipfire-1.png',
+        'images/explosion.png',
     ]);
     await assets['ship.js'].execute();
     await assets['ws.js'].execute();
