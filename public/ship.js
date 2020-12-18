@@ -175,4 +175,17 @@ class User extends Ship {
     }
 }
 
-class Remote extends Ship {}
+class Remote extends Ship {
+    constructor(id) {
+        super(stage, 100, 100);
+        this.id = id;
+    }
+    update(x, y, rotation, exhaust, trailL, trailR) {
+        this.x = x;
+        this.y = y;
+        this.rotation = rotation;
+        this.sprite.exhaust.visible = exhaust;
+        this.sprite.trailL.visible = trailL;
+        this.sprite.trailR.visible = trailR;
+    }
+}

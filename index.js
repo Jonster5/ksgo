@@ -40,11 +40,12 @@ WSS.on('connection', (ws, req) => {
                 );
             }
         });
+
+        console.clear();
+        console.log(users.map((u) => u.id));
     });
     ws.on('message', (data) => {
         let message = parse(data);
-
-        // console.log(WSS.clients);
 
         if (message.id === 'action') {
             let args = message.content.slice(1);
@@ -68,22 +69,25 @@ WSS.on('connection', (ws, req) => {
 
             users.push(client);
 
-            ws.send(format('registered', client.id));
+            ws.send(
+                format('registered', {
+                    name: client.id,
+                    array: users.map((u) => u.id),
+                })
+            );
 
             WSS.clients.forEach((c) => {
-                if (c.readyState === WebSocket.OPEN) {
-                    c.send(
-                        format(
-                            'userarray',
-                            users.map((i) => i.id)
-                        )
-                    );
+                if (c !== ws && c.readyState === WebSocket.OPEN) {
+                    c.send(format('newuser', client.id));
                 }
             });
+
+            console.clear();
+            console.log(users.map((u) => u.id));
         } else if (message.id === 'u_up') {
-            wss.clients.forEach(function each(client) {
+            WSS.clients.forEach((client) => {
                 if (client !== ws && client.readyState === WebSocket.OPEN) {
-                    client.send(data);
+                    client.send(format('u_up', message.content));
                 }
             });
         }

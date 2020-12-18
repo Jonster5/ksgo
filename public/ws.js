@@ -14,23 +14,28 @@ ws.onmessage = ({ data }) => {
     let message = parse(data);
 
     if (message.id === 'registered') {
-        user.id = message.content;
+        user.id = message.content.name;
+        let temp = message.content.array.filter((u) => u !== user.id);
+        users = temp.map((u) => {
+            return {
+                id: u,
+                dis: new Remote(u),
+            };
+        });
         document.title = `KSGO - ${user.id}`;
-    } else if (message.id === 'userarray') {
-        users = message.content
-            .filter((u) => u !== user.id)
-            .map((u) => {
-                return {
-                    id: u,
-                    dis: null,
-                };
-            });
-        console.log(users);
+    } else if (message.id === 'newuser') {
+        console.log(`${message.content} joined`);
+        users.push({
+            id: message.content,
+            dis: new Remote(message.content),
+        });
+    } else if (message.id === 'remuser') {} else if (message.id === 'u_up') {
+        users
+            .find((u) => u.id === message.content.id)
+            .dis.update(...message.content.pos);
     }
 };
 ws.onerror = (error) => {
     console.error(error);
 };
-ws.onclose = () => {
-    ws.send(format('unregister', user.id));
-};
+ws.onclose = () => {};
