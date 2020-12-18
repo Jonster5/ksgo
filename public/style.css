@@ -39,7 +39,7 @@ body {
 .ui_element {
     box-sizing: border-box;
     font-family: 'Concert One', sans-serif;
-    font-size: 3vw;
+    font-size: 2.5vw;
     width: 100%;
     text-align: center;
     height: auto;
@@ -47,6 +47,6 @@ body {
 }
 
 .ui_element strong {
-    font-size: 1.2vw;
+    font-size: 1vw;
     color: black;
 }
