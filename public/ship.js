@@ -5,11 +5,9 @@ class Ship {
         this._y = y;
         this._r = 0;
 
-        this.vel = {
-            x: 0,
-            y: 0,
-            r: 0,
-        };
+        this.energy = 100;
+        this.health = 100;
+        this.alive = true;
 
         this.stage = stage;
 

@@ -83,7 +83,7 @@ WSS.on('connection', (ws, req) => {
             // console.clear();
             // console.log(users.map((u) => u.id));
         } else if (message.id === 'u_up') {
-            upos[message.content.id] = message.content.pos;
+            upos[message.content.id] = message.content;
             delete upos[''];
         }
     });
