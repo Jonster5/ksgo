@@ -90,7 +90,6 @@ WSS.on('connection', (ws, req) => {
 });
 
 function Update() {
-    requestAnimationFrame(Update);
     WSS.clients.forEach((client) => {
         if (client.readyState === WebSocket.OPEN) {
             client.send(format('u_up', upos));
@@ -98,4 +97,4 @@ function Update() {
     });
 }
 
-Update();
+setInterval(Update, 25);
