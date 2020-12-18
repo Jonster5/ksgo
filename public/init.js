@@ -1,6 +1,6 @@
 'use strict';
 const gamewindow = document.getElementById('gamewindow');
-const energycounter = document.getElementById('energycounter');
+const energymeter = document.getElementById('energymeter');
 const canvas = new Pebble.Canvas(gamewindow, 1920, 1080, 'none', 'none');
 
 canvas.domElement.style.width = `${gamewindow.getBoundingClientRect().width}px`;

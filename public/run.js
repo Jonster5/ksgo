@@ -23,9 +23,7 @@ function Animate(timestamp) {
                 if (u.dis.health <= 0 || u.dis.alive === false) u.dis.kill();
             });
 
-            energycounter.innerHTML = `<strong>ENERGY</strong><br/>${Math.floor(
-				user.energy
-			)}`;
+            energymeter.style.height = `${200 - user.energy}px`;
 
             ws.send(
                 format('u_up', {

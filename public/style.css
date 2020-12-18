@@ -27,6 +27,8 @@ body {
 .sidebar {
     background: white;
     min-width: 50px;
+    display: flex;
+    flex-direction: column;
 }
 
 .gamewindow {
@@ -36,17 +38,33 @@ body {
     overflow: hidden;
 }
 
-.ui_element {
+.ui_label {
     box-sizing: border-box;
     font-family: 'Concert One', sans-serif;
-    font-size: 2.5vw;
+    font-size: 1vw;
     width: 100%;
     text-align: center;
     height: auto;
-    color: gold;
+    color: black;
+    margin: 5px auto;
 }
 
-.ui_element strong {
+.ui_element {
     font-size: 1vw;
     color: black;
+}
+
+.meterbox {
+    margin: 5px auto;
+    max-width: 4vw;
+    min-width: 25px;
+    border: 5px solid black;
+    background: gold;
+    height: 200px;
+}
+
+.meter {
+    width: 100%;
+    height: 0px;
+    background: white;
 }

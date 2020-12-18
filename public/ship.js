@@ -5,7 +5,7 @@ class Ship {
         this._y = y;
         this._r = 0;
 
-        this.energy = 100;
+        this.energy = 200;
         this.health = 100;
         this.alive = true;
 
@@ -178,14 +178,14 @@ class User extends Ship {
             this.sprite.exhaust.visible = false;
         }
 
-        if (this.rotationSpeed !== 0) cost += 0.6;
+        if (this.rotationSpeed !== 0) cost += 0.4;
         if (this.moveForward) cost += 1.2;
 
         this.x += this.vx * 0.3;
         this.y += this.vy * 0.3;
 
         this.energy -= cost;
-        if (this.energy > 100) this.energy = 100;
+        if (this.energy > 200) this.energy = 200;
         if (this.energy < 0) this.energy = 0;
 
         if (this.sprite.centerX > stage.width) {
@@ -210,6 +210,9 @@ class Remote extends Ship {
     constructor(id) {
         super(stage, 100, 100);
         this.id = id;
+
+        stage.remove(this.sprite);
+        delete this.sprite;
 
         this.sprite = Pebble.Sprite([
             assets['images/ship_remote.png'],
