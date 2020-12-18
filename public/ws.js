@@ -1,7 +1,7 @@
 'use strict';
 
-const ws = new WebSocket('wss://ksgo.herokuapp.com');
-// const ws = new WebSocket('ws://localhost:8000');
+// const ws = new WebSocket('wss://ksgo.herokuapp.com');
+const ws = new WebSocket('ws://localhost:8000');
 
 const format = (name = '', data) => JSON.stringify({ id: name, content: data });
 const parse = (message = '') => JSON.parse(message);
@@ -24,7 +24,6 @@ ws.onmessage = ({ data }) => {
         });
         document.title = `KSGO - ${user.id}`;
     } else if (message.id === 'newuser') {
-        console.log(`${message.content} joined`);
         users.push({
             id: message.content,
             dis: new Remote(message.content),
@@ -36,9 +35,9 @@ ws.onmessage = ({ data }) => {
             1
         );
     } else if (message.id === 'u_up') {
-        users
-            .find((u) => u.id === message.content.id)
-            .dis.update(...message.content.pos);
+        users.forEach((u) => {
+            u.dis.update(...message.content[u.id]);
+        });
     }
 };
 ws.onerror = (error) => {

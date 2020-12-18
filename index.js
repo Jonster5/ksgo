@@ -19,6 +19,8 @@ const parse = (message = '') => JSON.parse(message);
 
 let users = [];
 
+let upos = {};
+
 let actions = {
     log: (ws, req) => console.log(users),
 };
@@ -35,8 +37,10 @@ WSS.on('connection', (ws, req) => {
                 );
             }
         });
-        console.clear();
-        console.log(users.map((u) => u.id));
+        delete upos[users.find((u) => u.socket === ws).id];
+        users.splice(users.findIndex((u) => u.socket === ws));
+        // console.clear();
+        // console.log(users.map((u) => u.id));
     });
     ws.on('message', (data) => {
         let message = parse(data);
@@ -76,14 +80,21 @@ WSS.on('connection', (ws, req) => {
                 }
             });
 
-            console.clear();
-            console.log(users.map((u) => u.id));
+            // console.clear();
+            // console.log(users.map((u) => u.id));
         } else if (message.id === 'u_up') {
-            WSS.clients.forEach((client) => {
-                if (client !== ws && client.readyState === WebSocket.OPEN) {
-                    client.send(format('u_up', message.content));
-                }
-            });
+            upos[message.content.id] = message.content.pos;
+            delete upos[''];
         }
     });
 });
+
+setInterval(() => {
+    console.clear();
+    console.log(upos);
+    WSS.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(format('u_up', upos));
+        }
+    });
+}, 20);
