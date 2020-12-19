@@ -115,6 +115,7 @@ class User extends Ship {
         super(stage, 100, 100);
 
         this.energycooldown = false;
+        this.einteral;
 
         this.k_u = false;
         this.k_d = false;
@@ -222,13 +223,29 @@ class User extends Ship {
         }
 
         this.energy -= cost;
-        if (this.energy > 200) {
+        if (this.energy >= 200) {
             this.energy = 200;
+
+            if (this.energycooldown) {
+                clearInterval(this.einterval);
+                energymeter.parentElement.style.backgroundColor = 'lime';
+                setTimeout(() => {
+                    energymeter.parentElement.style.backgroundColor = 'gold';
+                }, 500);
+            }
+
             this.energycooldown = false;
         }
         if (this.energy < 0) {
             this.energy = 0;
             this.energycooldown = true;
+            energymeter.parentElement.style.backgroundColor = 'red';
+            this.einterval = setInterval(() => {
+                energymeter.parentElement.style.backgroundColor =
+                    energymeter.parentElement.style.backgroundColor === 'gold' ?
+                    'red' :
+                    'gold';
+            }, 300);
         }
     }
     update() {

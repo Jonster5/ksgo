@@ -59,8 +59,9 @@ body {
     max-width: 4vw;
     min-width: 25px;
     border: 5px solid black;
-    background: gold;
+    background-color: gold;
     height: 200px;
+    transition-duration: 200ms;
 }
 
 .meter {
