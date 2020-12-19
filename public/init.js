@@ -1,7 +1,13 @@
 'use strict';
 const gamewindow = document.getElementById('gamewindow');
 const energymeter = document.getElementById('energymeter');
-const canvas = new Pebble.Canvas(gamewindow, 50, 30, 'none', 'none');
+const canvas = new Pebble.Canvas(
+    gamewindow,
+    1000,
+    500,
+    'none',
+    'url(images/backgr.png)'
+);
 
 canvas.domElement.style.width = `${gamewindow.getBoundingClientRect().width}px`;
 canvas.domElement.style.height = `auto`;
@@ -12,15 +18,6 @@ document.addEventListener('resize', () => {
 	}px`;
     canvas.domElement.style.height = `auto`;
 });
-
-// let scaleX, scaleY, scale;
-
-// scaleX = canvas.domElement.getBoundingClientRect().width / this.width;
-// scaleY = canvas.domElement.getBoundingClientRect().height / this.height;
-
-// scale = Math.min(scaleX, scaleY);
-// canvas.domElement.style.transformOrigin = '0 0';
-// canvas.domElement.style.transform = 'scale(' + scale + ')';
 
 let users = [];
 

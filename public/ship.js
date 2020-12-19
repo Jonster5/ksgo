@@ -47,6 +47,7 @@ class Ship {
         this.sprite.trailL = Pebble.Sprite([assets['images/shipfire-1.png']]);
         this.sprite.trailL.width = 8;
         this.sprite.trailL.height = 12;
+        this.sprite.rotation = 0;
         this.sprite.putTop(this.sprite.trailL, 10, 10);
         this.sprite.trailL.visible = false;
         this.sprite.add(this.sprite.trailL);
@@ -118,6 +119,7 @@ class User extends Ship {
         this.k_d = false;
         this.k_r = false;
         this.k_l = false;
+        this.k_shift = false;
 
         this.id = '';
 
@@ -129,15 +131,25 @@ class User extends Ship {
                 this.k_l = true;
                 this.rotationSpeed = -0.075;
                 this.sprite.trailR.visible = true;
+
+                this.k_r = false;
+                this.sprite.trailL.visible = false;
             }
             if (event.key === 'd' && this.energy > 0) {
                 this.rotationSpeed = 0.075;
                 this.k_r = true;
                 this.sprite.trailL.visible = true;
+
+                this.k_l = false;
+                this.sprite.trailR.visible = false;
             }
             if (event.key === 'w' && this.energy > 0) {
                 this.moveForward = true;
                 this.sprite.exhaust.visible = true;
+            }
+            if (event.key === 'Shift') {
+                this.k_shift = true;
+                // if (this.k_l)
             }
             if (event.key === 's' && this.energy > 0) {}
         });
@@ -188,19 +200,19 @@ class User extends Ship {
         if (this.energy > 200) this.energy = 200;
         if (this.energy < 0) this.energy = 0;
 
-        if (this.sprite.centerX > stage.width) {
+        if (this.sprite.centerX > canvas.width) {
             this.x = -this.sprite.halfWidth;
             this.vx *= 0.7;
         } else if (this.sprite.centerX < 0) {
-            this.x = stage.width - this.sprite.halfWidth;
+            this.x = canvas.width - this.sprite.halfWidth;
             this.vx *= 0.7;
         }
 
-        if (this.sprite.centerY > stage.height) {
+        if (this.sprite.centerY > canvas.height) {
             this.y = -this.sprite.halfHeight;
             this.vy *= 0.7;
         } else if (this.sprite.centerY < 0) {
-            this.y = stage.height - this.sprite.halfHeight;
+            this.y = canvas.height - this.sprite.halfHeight;
             this.vy *= 0.7;
         }
     }
