@@ -15,9 +15,8 @@ function Animate(timestamp) {
             if (user.alive) {
                 user.prep();
                 user.update();
-                user.frame = 0;
             } else if (!user.alive) {
-                user.frame = 1;
+                user.die();
             }
 
             users.forEach((u) => {
@@ -25,6 +24,8 @@ function Animate(timestamp) {
             });
 
             energymeter.style.height = `${200 - user.energy}px`;
+
+            healthmeter.style.height = `${200 - user.health}px`;
 
             ws.send(
                 format('u_up', {

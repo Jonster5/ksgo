@@ -125,10 +125,13 @@ Pebble.AssetLoader = class {
                         return new Promise((res) => {
                             let script = document.createElement('script');
 
-                            script.innerHTML = this.source;
+                            script.src = source;
 
                             document.body.appendChild(script);
-                            res();
+
+                            script.onload = () => {
+                                res();
+                            };
                         });
                     },
                 };

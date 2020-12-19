@@ -18,15 +18,19 @@
     <!-- <script src="pebble/Pebble-NeuralNetwork.js"></script> -->
     <script src="pebble/Pebble-Presets.js"></script>
 
-    <script src="init.js" type="text/javascript" defer></script>
+    <script src="js/init.js" type="text/javascript" defer></script>
 </head>
 
 <body>
     <div class="g_container">
         <div class="ui sidebar">
             <div class='ui_label'>ENERGY</div>
-            <div class='ui_element meterbox'>
+            <div class='ui_element meterbox' style="background-color: gold;">
                 <div class='meter' id="energymeter"></div>
+            </div>
+            <div class='ui_label'>HULL</div>
+            <div class='ui_element meterbox' style="background-color: #0366fc;">
+                <div class='meter' id="healthmeter"></div>
             </div>
         </div>
         <div class="ui gamewindow" id="gamewindow">

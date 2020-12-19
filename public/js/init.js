@@ -1,6 +1,8 @@
 'use strict';
 const gamewindow = document.getElementById('gamewindow');
 const energymeter = document.getElementById('energymeter');
+const healthmeter = document.getElementById('healthmeter');
+
 const canvas = new Pebble.Canvas(
     gamewindow,
     1500,
@@ -31,16 +33,20 @@ Pebble.interpolationData.FPS = 60;
 
 (async() => {
     await assets.load([
-        'run.js',
-        'ship.js',
-        'ws.js',
+        'js/run.js',
+        'js/ship.js',
+        'js/user.js',
+        'js/remote.js',
+        'js/ws.js',
         'images/ship.png',
         'images/ship_remote.png',
         'images/shipfire.png',
         'images/shipfire-1.png',
         'images/explosion.png',
     ]);
-    await assets['ship.js'].execute();
-    await assets['ws.js'].execute();
-    await assets['run.js'].execute();
+    await assets['js/ship.js'].execute();
+    await assets['js/user.js'].execute();
+    await assets['js/remote.js'].execute();
+    await assets['js/ws.js'].execute();
+    await assets['js/run.js'].execute();
 })();
