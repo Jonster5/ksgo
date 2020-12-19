@@ -13,6 +13,7 @@ function Animate(timestamp) {
             if (ws.readyState !== ws.OPEN) return;
 
             if (user.alive) {
+                user.prep();
                 user.update();
                 user.frame = 0;
             } else if (!user.alive) {

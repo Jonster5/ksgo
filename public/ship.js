@@ -58,8 +58,7 @@ class Ship {
 
         this.vx = 0;
         this.vy = 0;
-        this.accelerationX = 0.2;
-        this.accelerationY = 0.2;
+        this.acceleration = 0.2;
         this.frictionX = 0.998;
         this.frictionY = 0.998;
 
@@ -115,114 +114,144 @@ class User extends Ship {
     constructor() {
         super(stage, 100, 100);
 
+        this.energycooldown = false;
+
         this.k_u = false;
         this.k_d = false;
         this.k_r = false;
         this.k_l = false;
+
         this.k_shift = false;
+        this.strafeRight = false;
+        this.strafeLeft = false;
 
         this.id = '';
 
         this.turnSpeed = 0.2;
-        this.acceleration = 1;
 
         this.keyDownHandler = window.addEventListener('keydown', (event) => {
-            if (
-                event.key === 'a' ||
-                (event.key === 'ArrowLeft' && this.energy > 0)
-            ) {
-                this.k_l = true;
-                this.rotationSpeed = -0.075;
-                this.sprite.trailR.visible = true;
+            event.preventDefault();
 
-                this.k_r = false;
-                this.sprite.trailL.visible = false;
-            }
-            if (
-                event.key === 'd' ||
-                (event.key === 'ArrowRight' && this.energy > 0)
-            ) {
-                this.rotationSpeed = 0.075;
-                this.k_r = true;
-                this.sprite.trailL.visible = true;
-
-                this.k_l = false;
-                this.sprite.trailR.visible = false;
-            }
-            if (
-                event.key === 'w' ||
-                (event.key === 'ArrowUp' && this.energy > 0)
-            ) {
-                this.moveForward = true;
-                this.sprite.exhaust.visible = true;
-            }
-            if (event.key === 'Shift') {
+            if (event.key === 'a') this.k_l = true;
+            if (event.key === 'd') this.k_r = true;
+            if (event.key === 'w') this.k_u = true;
+            if (event.key === 's') this.k_d = true;
+            if (event.key === 'Shift' && event.location === 1)
                 this.k_shift = true;
-                // if (this.k_l)
-            }
-            if (event.key === 's' && this.energy > 0) {}
         });
 
         this.keyUpHandler = window.addEventListener('keyup', (event) => {
-            if (event.key === 'a' || event.key === 'ArrowLeft') {
-                this.k_l = false;
-                if (!this.k_r) this.rotationSpeed = 0;
-                this.sprite.trailR.visible = false;
-            }
-            if (event.key === 'd' || event.key === 'ArrowRight') {
-                this.k_r = false;
-                if (!this.k_l) this.rotationSpeed = 0;
-                this.sprite.trailL.visible = false;
-            }
-            if (event.key === 'w' || event.key === 'ArrowUp') {
-                this.moveForward = false;
-                this.sprite.exhaust.visible = false;
-            }
-            if (event.key === 's') {}
+            event.preventDefault();
+
+            if (event.key === 'a') this.k_l = false;
+            if (event.key === 'd') this.k_r = false;
+            if (event.key === 'w') this.k_u = false;
+            if (event.key === 's') this.k_d = false;
+            if (event.key === 'Shift' && event.location === 1)
+                this.k_shift = false;
         });
     }
-    update() {
-        if (this.energy > 0) this.rotation += this.rotationSpeed;
+    prep() {
         let cost = -1;
 
-        if (this.moveForward && this.energy > 0) {
-            this.vx += this.accelerationX * Math.cos(this.rotation);
-            this.vy += this.accelerationY * Math.sin(this.rotation);
+        this.moveForward = false;
+        this.rotationSpeed = 0;
+        this.strafeLeft = false;
+        this.strafeRight = false;
+
+        this.sprite.trailL.visible = false;
+        this.sprite.trailR.visible = false;
+        this.sprite.exhaust.visible = false;
+
+        if (this.energy > 0 && !this.energycooldown) {
+            if (this.k_u) {
+                this.moveForward = true;
+                this.sprite.exhaust.visible = true;
+                cost += 1.5;
+            }
+
+            if (this.k_l) {
+                if (this.k_shift) {
+                    this.strafeLeft = true;
+                    this.sprite.trailR.visible = true;
+                    cost += 0.5;
+                } else {
+                    this.rotationSpeed = -0.075;
+                    this.sprite.trailR.visible = true;
+                    cost += 0.5;
+                    if (this.k_r) this.rotationSpeed = 0;
+                }
+            }
+            if (this.k_r) {
+                if (this.k_shift) {
+                    this.strafeRight = true;
+                    this.sprite.trailL.visible = true;
+                    cost += 0.6;
+                } else {
+                    this.rotationSpeed = 0.075;
+                    this.sprite.trailL.visible = true;
+                    cost += 0.6;
+                    if (this.k_l) this.rotationSpeed = 0;
+                }
+            }
         } else {
-            this.vx *= this.frictionX;
-            this.vy *= this.frictionY;
+            this.k_u = false;
+            this.k_d = false;
+            this.k_r = false;
+            this.k_l = false;
+            this.k_shift = false;
         }
 
-        if (this.energy <= 0) {
-            this.sprite.trailL.visible = false;
-            this.sprite.trailR.visible = false;
-            this.sprite.exhaust.visible = false;
+        this.energy -= cost;
+        if (this.energy > 200) {
+            this.energy = 200;
+            this.energycooldown = false;
+        }
+        if (this.energy < 0) {
+            this.energy = 0;
+            this.energycooldown = true;
+        }
+    }
+    update() {
+        if (this.moveForward) {
+            this.vx += this.acceleration * Math.cos(this.rotation);
+            this.vy += this.acceleration * Math.sin(this.rotation);
         }
 
-        if (this.rotationSpeed !== 0) cost += 0.4;
-        if (this.moveForward) cost += 1.2;
+        if (this.strafeLeft) {
+            this.vx +=
+                (this.acceleration / 2) * Math.cos(this.rotation - Math.PI / 2);
+            this.vy +=
+                (this.acceleration / 2) * Math.sin(this.rotation - Math.PI / 2);
+        }
+        if (this.strafeRight) {
+            this.vx +=
+                (this.acceleration / 2) * Math.cos(this.rotation + Math.PI / 2);
+            this.vy +=
+                (this.acceleration / 2) * Math.sin(this.rotation + Math.PI / 2);
+        }
+
+        this.rotation += this.rotationSpeed;
+
+        this.vx *= this.frictionX;
+        this.vy *= this.frictionY;
 
         this.x += this.vx * 0.3;
         this.y += this.vy * 0.3;
 
-        this.energy -= cost;
-        if (this.energy > 200) this.energy = 200;
-        if (this.energy < 0) this.energy = 0;
-
         if (this.sprite.centerX > canvas.width) {
             this.x = -this.sprite.halfWidth;
-            this.vx *= 0.7;
+            this.sprite.previousX = -this.sprite.halfWidth;
         } else if (this.sprite.centerX < 0) {
             this.x = canvas.width - this.sprite.halfWidth;
-            this.vx *= 0.7;
+            this.sprite.previousX = canvas.width - this.sprite.halfWidth;
         }
-
         if (this.sprite.centerY > canvas.height) {
             this.y = -this.sprite.halfHeight;
-            this.vy *= 0.7;
+            this.sprite.previousY = -this.sprite.halfHeight;
         } else if (this.sprite.centerY < 0) {
             this.y = canvas.height - this.sprite.halfHeight;
-            this.vy *= 0.7;
+            this.sprite.previousY = canvas.height - this.sprite.halfHeight;
         }
     }
 }
