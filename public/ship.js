@@ -132,10 +132,19 @@ class User extends Ship {
         this.keyDownHandler = window.addEventListener('keydown', (event) => {
             event.preventDefault();
 
-            if (event.key === 'a') this.k_l = true;
+            if (event.key === 'a' || event.key === 'A') this.k_l = true;
             if (event.key === 'd') this.k_r = true;
             if (event.key === 'w') this.k_u = true;
-            if (event.key === 's') this.k_d = true;
+            if (event.key === 's' || event.key === 'S') this.k_d = true;
+
+            if (event.key === 'A') {
+                this.k_shift = true;
+                this.k_l = true;
+            }
+            if (event.key === 'D') {
+                this.k_shift = true;
+                this.k_r = true;
+            }
             if (event.key === 'Shift' && event.location === 1)
                 this.k_shift = true;
         });
@@ -143,10 +152,20 @@ class User extends Ship {
         this.keyUpHandler = window.addEventListener('keyup', (event) => {
             event.preventDefault();
 
-            if (event.key === 'a') this.k_l = false;
+            if (event.key === 'a' || event.key === 'A') this.k_l = false;
             if (event.key === 'd') this.k_r = false;
             if (event.key === 'w') this.k_u = false;
-            if (event.key === 's') this.k_d = false;
+            if (event.key === 's' || event.key === 'S') this.k_d = false;
+
+            if (event.key === 'A') {
+                this.k_l = false;
+                if (!this.strafeRight) this.k_shift = false;
+            }
+            if (event.key === 'D') {
+                this.k_r = false;
+                if (!this.strafeLeft) this.k_shift = false;
+            }
+
             if (event.key === 'Shift' && event.location === 1)
                 this.k_shift = false;
         });
@@ -176,7 +195,7 @@ class User extends Ship {
                     this.sprite.trailR.visible = true;
                     cost += 0.5;
                 } else {
-                    this.rotationSpeed = -0.075;
+                    this.rotationSpeed = (3 * -Math.PI) / 180;
                     this.sprite.trailR.visible = true;
                     cost += 0.5;
                     if (this.k_r) this.rotationSpeed = 0;
@@ -188,7 +207,7 @@ class User extends Ship {
                     this.sprite.trailL.visible = true;
                     cost += 0.6;
                 } else {
-                    this.rotationSpeed = 0.075;
+                    this.rotationSpeed = (3 * Math.PI) / 180;
                     this.sprite.trailL.visible = true;
                     cost += 0.6;
                     if (this.k_l) this.rotationSpeed = 0;
