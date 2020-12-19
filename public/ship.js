@@ -132,9 +132,9 @@ class User extends Ship {
         this.keyDownHandler = window.addEventListener('keydown', (event) => {
             event.preventDefault();
 
-            if (event.key === 'a' || event.key === 'A') this.k_l = true;
+            if (event.key === 'a') this.k_l = true;
             if (event.key === 'd') this.k_r = true;
-            if (event.key === 'w') this.k_u = true;
+            if (event.key === 'w' || event.key === 'W') this.k_u = true;
             if (event.key === 's' || event.key === 'S') this.k_d = true;
 
             if (event.key === 'A') {
@@ -152,9 +152,9 @@ class User extends Ship {
         this.keyUpHandler = window.addEventListener('keyup', (event) => {
             event.preventDefault();
 
-            if (event.key === 'a' || event.key === 'A') this.k_l = false;
+            if (event.key === 'a') this.k_l = false;
             if (event.key === 'd') this.k_r = false;
-            if (event.key === 'w') this.k_u = false;
+            if (event.key === 'w' || event.key === 'W') this.k_u = false;
             if (event.key === 's' || event.key === 'S') this.k_d = false;
 
             if (event.key === 'A') {
