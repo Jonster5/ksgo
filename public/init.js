@@ -3,8 +3,8 @@ const gamewindow = document.getElementById('gamewindow');
 const energymeter = document.getElementById('energymeter');
 const canvas = new Pebble.Canvas(
     gamewindow,
-    1000,
-    500,
+    1500,
+    750,
     'none',
     'url(images/backgr.png)'
 );
