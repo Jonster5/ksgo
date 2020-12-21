@@ -112,7 +112,7 @@ class User extends Ship {
             }
             if (this.k_space) {
                 this.laser.visible = true;
-                cost += 2;
+                cost += 2.5;
             }
         } else {
             this.k_u = false;

@@ -11,7 +11,7 @@ const format = (a = '', b) => JSON.stringify({ id: a, content: b });
 const parse = (a = '') => JSON.parse(a);
 
 const gformat = (a) => a.join(',');
-const gparse = (a) => a.split(',');
+const gparse = (a = '') => a.split(',');
 
 const state = () =>
     aws.readyState === WebSocket.OPEN && gws.readyState === WebSocket.OPEN;
