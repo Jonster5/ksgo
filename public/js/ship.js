@@ -52,6 +52,78 @@ class Ship {
         this.sprite.trailL.visible = false;
         this.sprite.add(this.sprite.trailL);
 
+        this.laserpoints = [{
+                x: 16,
+                y: 12,
+            },
+            {
+                x: 36,
+                y: 12,
+            },
+            {
+                x: 56,
+                y: 12,
+            },
+            {
+                x: 76,
+                y: 12,
+            },
+            {
+                x: 96,
+                y: 12,
+            },
+            {
+                x: 116,
+                y: 12,
+            },
+            {
+                x: 136,
+                y: 12,
+            },
+            {
+                x: 156,
+                y: 12,
+            },
+            {
+                x: 176,
+                y: 12,
+            },
+            {
+                x: 196,
+                y: 12,
+            },
+        ];
+
+        this.laserpoints = this.laserpoints
+            .map((p) => {
+                return {
+                    x: p.x + this.x,
+                    y: p.y + this.y,
+                };
+            })
+            .map((p) => {
+                return {
+                    x: Math.cos(this.rotation) * (p.x - this.x + 16) +
+                        Math.sin(this.rotation) * (p.y - this.y) +
+                        this.x,
+                    y: Math.cos(this.rotation) * (p.y - this.y) -
+                        Math.sin(this.rotation) * (p.x - this.x + 16) +
+                        this.y,
+                };
+            });
+
+        this.laser = Pebble.Line(
+            this.laserpoints[0].x,
+            this.laserpoints[0].y,
+            this.laserpoints[this.laserpoints.length - 1].x,
+            this.laserpoints[this.laserpoints.length - 1].y,
+            'red',
+            4
+        );
+        this.laser.visible = false;
+
+        this.sprite.add(this.laser);
+
         this.stage.putCenter(this.sprite);
 
         this.stage.add(this.sprite);

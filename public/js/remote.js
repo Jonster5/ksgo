@@ -47,6 +47,11 @@ class Remote extends Ship {
         this.sprite.trailL.visible = false;
         this.sprite.add(this.sprite.trailL);
 
+        this.laser = Pebble.Line(32, 12, 196, 12, 'red', 4);
+
+        this.sprite.add(this.laser);
+        this.laser.visible = false;
+
         this.stage.putCenter(this.sprite);
 
         this.stage.add(this.sprite);
@@ -54,7 +59,7 @@ class Remote extends Ship {
         this.sprite.mass = 5;
     }
     update(
-        [x, y, rotation], [exhaust, trailL, trailR], [energy, health, isAlive]
+        [x, y, rotation], [exhaust, trailL, trailR], [energy, health, isAlive], [shortlaser]
     ) {
         this.x = x;
         this.y = y;
@@ -65,7 +70,9 @@ class Remote extends Ship {
 
         this.energy = energy;
         this.health = health;
-        this.isAlive = false;
+        this.isAlive = isAlive;
+
+        this.laser.visible = shortlaser;
     }
     kill() {}
 }

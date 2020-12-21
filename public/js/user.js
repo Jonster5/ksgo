@@ -15,6 +15,8 @@ class User extends Ship {
         this.strafeRight = false;
         this.strafeLeft = false;
 
+        this.k_space = false;
+
         this.id = '';
 
         this.turnSpeed = 0.2;
@@ -37,6 +39,8 @@ class User extends Ship {
             }
             if (event.key === 'Shift' && event.location === 1)
                 this.k_shift = true;
+
+            if (event.key === ' ') this.k_space = true;
         });
 
         this.keyUpHandler = window.addEventListener('keyup', (event) => {
@@ -58,6 +62,8 @@ class User extends Ship {
 
             if (event.key === 'Shift' && event.location === 1)
                 this.k_shift = false;
+
+            if (event.key === ' ') this.k_space = false;
         });
     }
     prep() {
@@ -71,6 +77,7 @@ class User extends Ship {
         this.sprite.trailL.visible = false;
         this.sprite.trailR.visible = false;
         this.sprite.exhaust.visible = false;
+        this.laser.visible = false;
 
         if (this.energy > 0 && !this.energycooldown) {
             if (this.k_u) {
@@ -103,12 +110,17 @@ class User extends Ship {
                     if (this.k_l) this.rotationSpeed = 0;
                 }
             }
+            if (this.k_space) {
+                this.laser.visible = true;
+                cost += 2;
+            }
         } else {
             this.k_u = false;
             this.k_d = false;
             this.k_r = false;
             this.k_l = false;
             this.k_shift = false;
+            this.k_space = false;
         }
 
         this.energy -= cost;
@@ -179,6 +191,65 @@ class User extends Ship {
             this.y = canvas.height - this.sprite.halfHeight;
             this.sprite.previousY = canvas.height - this.sprite.halfHeight;
         }
+
+        this.laserpoints = [{
+                    x: 16,
+                    y: 12,
+                },
+                {
+                    x: 36,
+                    y: 12,
+                },
+                {
+                    x: 56,
+                    y: 12,
+                },
+                {
+                    x: 76,
+                    y: 12,
+                },
+                {
+                    x: 96,
+                    y: 12,
+                },
+                {
+                    x: 116,
+                    y: 12,
+                },
+                {
+                    x: 136,
+                    y: 12,
+                },
+                {
+                    x: 156,
+                    y: 12,
+                },
+                {
+                    x: 176,
+                    y: 12,
+                },
+                {
+                    x: 196,
+                    y: 12,
+                },
+            ]
+            .map((p) => {
+                return {
+                    x: p.x + this.x,
+                    y: p.y + this.y,
+                };
+            })
+            .map((p) => {
+                return {
+                    x: Math.cos(this.rotation) * (p.x - this.x + 16) +
+                        Math.sin(this.rotation) * (p.y - this.y + 12) +
+                        this.x,
+                    y: Math.cos(this.rotation) * (p.y - this.y + 12) -
+                        Math.sin(this.rotation) * (p.x - this.x + 16) +
+                        this.y +
+                        12,
+                };
+            });
     }
     die() {
         this.frame = 1;

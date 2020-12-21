@@ -51,7 +51,7 @@ function Animate(timestamp) {
                 user.alive, // client alive or not?
 
                 // combat - [10]
-                false, // firing laser or not?
+                user.laser.visible, // firing laser or not?
             ];
 
             gws.send(gformat(sendarr));

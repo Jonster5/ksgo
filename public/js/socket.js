@@ -69,7 +69,7 @@ gws.onmessage = ({ data }) => {
                 parseFloat(dat[7]),
                 parseFloat(dat[8]),
                 dat[9] === 'true' ? true : false,
-            ]
+            ], [dat[10] === 'true' ? true : false]
         );
     });
 };
