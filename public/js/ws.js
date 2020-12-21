@@ -3,13 +3,37 @@
 const ws = new WebSocket('wss://ksgo.herokuapp.com');
 // const ws = new WebSocket('ws://192.168.1.157:8000');
 
-const format = (name = '', data) => JSON.stringify({ id: name, content: data });
-const parse = (message = '') => JSON.parse(message);
+const format = (name = '', data = []) => {
+    return JSON.stringify({
+        id: name,
+        content: data.toLocaleString(),
+    });
+};
+const parse = (message = '') => {
+    const t = JSON.parse(message);
+    t.content = t.content.split(',');
+
+    t.content[1] = Number(t.content[1]);
+    t.content[2] = Number(t.content[2]);
+    t.content[3] = Number(t.content[3]);
+
+    t.content[4] = Boolean(t.content[4]);
+    t.content[5] = Boolean(t.content[5]);
+    t.content[6] = Boolean(t.content[6]);
+
+    t.content[7] = Number(t.content[7]);
+    t.content[8] = Number(t.content[8]);
+
+    t.content[9] = Boolean(t.content[9]);
+
+    return t;
+};
 
 ws.onopen = () => {
     user = new User();
     ws.send(format('register'));
 };
+
 ws.onmessage = ({ data }) => {
     let message = parse(data);
 
@@ -47,7 +71,9 @@ ws.onmessage = ({ data }) => {
         });
     }
 };
+
 ws.onerror = (error) => {
     console.error(error);
 };
+
 ws.onclose = () => {};

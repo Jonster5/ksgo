@@ -157,6 +157,7 @@ class User extends Ship {
         }
 
         this.rotation += this.rotationSpeed;
+        this.rotation = this.rotation % (Math.PI * 2);
 
         this.vx *= this.frictionX;
         this.vy *= this.frictionY;

@@ -10,7 +10,11 @@ function Animate(timestamp) {
         stage,
         true,
         Pebble.getLagOffset(timestamp, () => {
-            if (ws.readyState !== ws.OPEN) return;
+            if (!(
+                    aws.readyState === WebSocket.OPEN &&
+                    gws.readyState === WebSocket.OPEN
+                ))
+                return;
 
             if (user.alive) {
                 user.prep();
@@ -27,22 +31,30 @@ function Animate(timestamp) {
 
             healthmeter.style.height = `${200 - user.health}px`;
 
-            ws.send(
-                format('u_up', {
-                    id: user.id,
-                    alive: user.alive,
-                    energy: user.energy,
-                    health: user.health,
-                    pos: [
-                        user.x,
-                        user.y,
-                        user.rotation,
-                        user.sprite.exhaust.visible,
-                        user.sprite.trailL.visible,
-                        user.sprite.trailR.visible,
-                    ],
-                })
-            );
+            let sendarr = [
+                // info - [0]
+                user.id, // client ID
+
+                // pos - [1, 2, 3]
+                user.x, // client X coord
+                user.y, // client Y coord
+                user.rotation, // client rotation value
+
+                // visual - [4, 5, 6]
+                user.sprite.exhaust.visible, // exhaust visible or not?
+                user.sprite.trailL.visible, // left thruster visible or not?
+                user.sprite.trailR.visible, // right thruster visible or not?
+
+                // stats - [7, 8, 9]
+                user.energy, // client energy level
+                user.health, // client hull level
+                user.alive, // client alive or not?
+
+                // combat - [10]
+                false, // firing laser or not?
+            ];
+
+            gws.send(gformat(sendarr));
             // if (users) users.forEach((u) => u.update());
         })
     );

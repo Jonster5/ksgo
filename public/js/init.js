@@ -14,7 +14,7 @@ const canvas = new Pebble.Canvas(
 canvas.domElement.style.width = `${gamewindow.getBoundingClientRect().width}px`;
 canvas.domElement.style.height = `auto`;
 
-document.addEventListener('resize', () => {
+window.addEventListener('resize', () => {
     canvas.domElement.style.width = `${
 		gamewindow.getBoundingClientRect().width
 	}px`;
@@ -37,7 +37,7 @@ Pebble.interpolationData.FPS = 60;
         'js/ship.js',
         'js/user.js',
         'js/remote.js',
-        'js/ws.js',
+        'js/socket.js',
         'images/ship.png',
         'images/ship_remote.png',
         'images/shipfire.png',
@@ -47,6 +47,6 @@ Pebble.interpolationData.FPS = 60;
     await assets['js/ship.js'].execute();
     await assets['js/user.js'].execute();
     await assets['js/remote.js'].execute();
-    await assets['js/ws.js'].execute();
+    await assets['js/socket.js'].execute();
     await assets['js/run.js'].execute();
 })();

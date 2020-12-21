@@ -41,7 +41,7 @@ body {
 .ui_label {
     box-sizing: border-box;
     font-family: 'Concert One', sans-serif;
-    font-size: 1vw;
+    font-size: 12px;
     width: 100%;
     text-align: center;
     height: auto;

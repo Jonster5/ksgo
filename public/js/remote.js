@@ -53,13 +53,19 @@ class Remote extends Ship {
 
         this.sprite.mass = 5;
     }
-    update(x, y, rotation, exhaust, trailL, trailR) {
+    update(
+        [x, y, rotation], [exhaust, trailL, trailR], [energy, health, isAlive]
+    ) {
         this.x = x;
         this.y = y;
         this.rotation = rotation;
         this.sprite.exhaust.visible = exhaust;
         this.sprite.trailL.visible = trailL;
         this.sprite.trailR.visible = trailR;
+
+        this.energy = energy;
+        this.health = health;
+        this.isAlive = false;
     }
     kill() {}
 }
