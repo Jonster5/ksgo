@@ -52,77 +52,31 @@ class Ship {
         this.sprite.trailL.visible = false;
         this.sprite.add(this.sprite.trailL);
 
-        this.laserpoints = [{
-                x: 16,
-                y: 12,
-            },
-            {
-                x: 36,
-                y: 12,
-            },
-            {
-                x: 56,
-                y: 12,
-            },
-            {
-                x: 76,
-                y: 12,
-            },
-            {
-                x: 96,
-                y: 12,
-            },
-            {
-                x: 116,
-                y: 12,
-            },
-            {
-                x: 136,
-                y: 12,
-            },
-            {
-                x: 156,
-                y: 12,
-            },
-            {
-                x: 176,
-                y: 12,
-            },
-            {
-                x: 196,
-                y: 12,
-            },
-        ];
-
-        this.laserpoints = this.laserpoints
-            .map((p) => {
-                return {
-                    x: p.x + this.x,
-                    y: p.y + this.y,
-                };
-            })
-            .map((p) => {
-                return {
-                    x: Math.cos(this.rotation) * (p.x - this.x + 16) +
-                        Math.sin(this.rotation) * (p.y - this.y) +
-                        this.x,
-                    y: Math.cos(this.rotation) * (p.y - this.y) -
-                        Math.sin(this.rotation) * (p.x - this.x + 16) +
-                        this.y,
-                };
-            });
-
-        this.laser = Pebble.Line(
-            this.laserpoints[0].x,
-            this.laserpoints[0].y,
-            this.laserpoints[this.laserpoints.length - 1].x,
-            this.laserpoints[this.laserpoints.length - 1].y,
-            'red',
-            4
-        );
+        this.laser = Pebble.Rectangle(200, 3, 'red', 'none', 0);
+        this.laser.pivotX = -0.08;
         this.laser.visible = false;
 
-        this.sprite.add(this.laser);
+        this.laser.a = this.rotatepoint({
+                x: this.sprite.centerX,
+                y: this.sprite.centerY,
+            }, {
+                x: this.laser.globalBounds.x,
+                y: this.laser.globalBounds.y,
+            },
+            this.sprite.rotation
+        );
+
+        this.laser.b = this.rotatepoint({
+                x: this.sprite.centerX,
+                y: this.sprite.centerY,
+            }, {
+                x: this.laser.globalBounds.width,
+                y: this.laser.globalBounds.height,
+            },
+            this.sprite.rotation
+        );
+
+        this.stage.add(this.laser);
 
         this.stage.putCenter(this.sprite);
 
@@ -139,6 +93,17 @@ class Ship {
         this.rotationSpeed = 0;
         this.moveForward = false;
     }
+    rotatepoint(c, p, radians) {
+        let cos = Math.cos(radians),
+            sin = Math.sin(radians),
+            nx = cos * (p.x - c.x) + sin * (p.y - c.y) + c.x,
+            ny = cos * (p.y - c.y) - sin * (p.x - c.x) + c.y;
+        return {
+            x: nx,
+            y: ny,
+        };
+    }
+
     get frame() {
         return this.sprite.currentFrame;
     }

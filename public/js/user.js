@@ -192,64 +192,29 @@ class User extends Ship {
             this.sprite.previousY = canvas.height - this.sprite.halfHeight;
         }
 
-        this.laserpoints = [{
-                    x: 16,
-                    y: 12,
-                },
-                {
-                    x: 36,
-                    y: 12,
-                },
-                {
-                    x: 56,
-                    y: 12,
-                },
-                {
-                    x: 76,
-                    y: 12,
-                },
-                {
-                    x: 96,
-                    y: 12,
-                },
-                {
-                    x: 116,
-                    y: 12,
-                },
-                {
-                    x: 136,
-                    y: 12,
-                },
-                {
-                    x: 156,
-                    y: 12,
-                },
-                {
-                    x: 176,
-                    y: 12,
-                },
-                {
-                    x: 196,
-                    y: 12,
-                },
-            ]
-            .map((p) => {
-                return {
-                    x: p.x + this.x,
-                    y: p.y + this.y,
-                };
-            })
-            .map((p) => {
-                return {
-                    x: Math.cos(this.rotation) * (p.x - this.x + 16) +
-                        Math.sin(this.rotation) * (p.y - this.y + 12) +
-                        this.x,
-                    y: Math.cos(this.rotation) * (p.y - this.y + 12) -
-                        Math.sin(this.rotation) * (p.x - this.x + 16) +
-                        this.y +
-                        12,
-                };
-            });
+        this.laser.x = this.sprite.centerX + 16;
+        this.laser.y = this.sprite.centerY - 2;
+        this.laser.rotation = this.sprite.rotation;
+
+        this.laser.a = this.rotatepoint({
+                x: this.sprite.centerX,
+                y: this.sprite.centerY,
+            }, {
+                x: this.laser.globalBounds.x,
+                y: this.laser.globalBounds.y,
+            },
+            this.sprite.rotation
+        );
+
+        this.laser.b = this.rotatepoint({
+                x: this.sprite.centerX,
+                y: this.sprite.centerY,
+            }, {
+                x: this.laser.globalBounds.width,
+                y: this.laser.globalBounds.height,
+            },
+            this.sprite.rotation
+        );
     }
     die() {
         this.frame = 1;
