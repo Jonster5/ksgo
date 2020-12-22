@@ -180,16 +180,24 @@ class User extends Ship {
         if (this.sprite.centerX > canvas.width) {
             this.x = -this.sprite.halfWidth;
             this.sprite.previousX = -this.sprite.halfWidth;
+            this.vx *= 0.5;
+            this.vy *= 0.5;
         } else if (this.sprite.centerX < 0) {
             this.x = canvas.width - this.sprite.halfWidth;
             this.sprite.previousX = canvas.width - this.sprite.halfWidth;
+            this.vx *= 0.5;
+            this.vy *= 0.5;
         }
         if (this.sprite.centerY > canvas.height) {
             this.y = -this.sprite.halfHeight;
             this.sprite.previousY = -this.sprite.halfHeight;
+            this.vx *= 0.5;
+            this.vy *= 0.5;
         } else if (this.sprite.centerY < 0) {
             this.y = canvas.height - this.sprite.halfHeight;
             this.sprite.previousY = canvas.height - this.sprite.halfHeight;
+            this.vx *= 0.5;
+            this.vy *= 0.5;
         }
 
         this.laser.x = this.sprite.centerX + 16;

@@ -31,7 +31,7 @@ function Animate(timestamp) {
             users.forEach((u) => {
                 let hit = false;
 
-                if (user.laser.visible) hit = false;
+                if (user.laser.visible) hit = true;
 
                 if (hit === true) hitarr.push(u.id);
             });
