@@ -57,7 +57,7 @@ aws.onclose = () => {};
 
 // gws.onopen = () => {};
 
-gws.onmessage = ({ data }) => {
+gws.onmessage = async({ data }) => {
     const message = JSON.parse(data);
 
     if (!Object.keys(message).length) return;
@@ -74,10 +74,10 @@ gws.onmessage = ({ data }) => {
                 dat[9] === 'true' || dat[9] === undefined ? true : false,
             ], [dat[10] === 'true' ? true : false]
         );
-        // if (dat[11].split(' ').some((x) => x === user.id)) {
-        //     user.die();
-        //     user.alive = false;
-        // }
+        const hit = dat[11] ? dat[11] : ' ';
+        if (hit.split(' ').some((x) => x === user.id)) {
+            user.health--;
+        }
     });
 };
 

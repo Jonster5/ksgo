@@ -61,7 +61,7 @@ class Ship {
                 y: this.sprite.centerY,
             }, {
                 x: this.laser.globalBounds.x,
-                y: this.laser.globalBounds.y,
+                y: this.laser.globalBounds.y - 2,
             },
             this.sprite.rotation
         );
@@ -71,7 +71,7 @@ class Ship {
                 y: this.sprite.centerY,
             }, {
                 x: this.laser.globalBounds.width,
-                y: this.laser.globalBounds.height,
+                y: this.laser.globalBounds.height - 2,
             },
             this.sprite.rotation
         );

@@ -12,6 +12,7 @@ function Animate(timestamp) {
         Pebble.getLagOffset(timestamp, () => {
             if (!(
                     aws.readyState === WebSocket.OPEN &&
+                    user.id &&
                     gws.readyState === WebSocket.OPEN
                 ))
                 return;
@@ -19,22 +20,31 @@ function Animate(timestamp) {
             if (user.alive) {
                 user.prep();
                 user.update();
-            } else if (!user.alive) {
+            }
+            if (user.health <= 0) {
                 user.die();
+                user.health = 0;
             }
 
-            let hitarr = [];
+            let hitarr = [' '];
 
             users.forEach((u) => {
                 if (!u.dis.alive) u.dis.kill();
             });
-            users.forEach((u) => {
-                let hit = false;
 
-                if (user.laser.visible) hit = true;
-
-                if (hit === true) hitarr.push(u.id);
-            });
+            if (user.laser.visible) {
+                users.forEach((u) => {
+                    let hit = calcIsInsideThickLineSegment(
+                        user.laser.a,
+                        user.laser.b, {
+                            x: u.dis.sprite.centerX,
+                            y: u.dis.sprite.centerY,
+                        },
+                        15
+                    );
+                    if (hit) hitarr.push(u.id);
+                });
+            }
 
             // console.log(hitarr.join(' '));
 
@@ -75,3 +85,40 @@ Animate();
 // setTimeout(() => {
 //     cancelAnimationFrame(animator);
 // }, 300);
+
+function calcIsInsideThickLineSegment(line1, line2, pnt, lineThickness) {
+    let L2 =
+        (line2.x - line1.x) * (line2.x - line1.x) +
+        (line2.y - line1.y) * (line2.y - line1.y);
+    if (L2 == 0) return false;
+    let r =
+        ((pnt.x - line1.x) * (line2.x - line1.x) +
+            (pnt.y - line1.y) * (line2.y - line1.y)) /
+        L2;
+
+    //Assume line thickness is circular
+    if (r < 0) {
+        //Outside line1
+        return (
+            Math.sqrt(
+                (line1.x - pnt.x) * (line1.x - pnt.x) +
+                (line1.y - pnt.y) * (line1.y - pnt.y)
+            ) <= lineThickness
+        );
+    } else if (0 <= r && r <= 1) {
+        //On the line segment
+        let s =
+            ((line1.y - pnt.y) * (line2.x - line1.x) -
+                (line1.x - pnt.x) * (line2.y - line1.y)) /
+            L2;
+        return Math.abs(s) * Math.sqrt(L2) <= lineThickness;
+    } else {
+        //Outside line2
+        return (
+            Math.sqrt(
+                (line2.x - pnt.x) * (line2.x - pnt.x) +
+                (line2.y - pnt.y) * (line2.y - pnt.y)
+            ) <= lineThickness
+        );
+    }
+}

@@ -21,6 +21,23 @@ class User extends Ship {
 
         this.turnSpeed = 0.2;
 
+        // this.test1 = Pebble.Circle(
+        //     30,
+        //     'none',
+        //     'white',
+        //     3,
+        //     this.laser.a.x,
+        //     this.laser.a.y
+        // );
+        // this.test2 = Pebble.Circle(
+        //     30,
+        //     'none',
+        //     'white',
+        //     3,
+        //     this.laser.b.x,
+        //     this.laser.b.y
+        // );
+
         this.keyDownHandler = window.addEventListener('keydown', (event) => {
             event.preventDefault();
 
@@ -205,29 +222,32 @@ class User extends Ship {
         this.laser.rotation = this.sprite.rotation;
 
         this.laser.a = this.rotatepoint({
-                x: this.sprite.centerX,
-                y: this.sprite.centerY,
-            }, {
-                x: this.laser.globalBounds.x,
-                y: this.laser.globalBounds.y,
-            },
-            this.sprite.rotation
-        );
+            x: this.sprite.centerX,
+            y: this.sprite.centerY,
+        }, {
+            x: this.laser.globalBounds.x,
+            y: this.laser.globalBounds.y - 12,
+        }, -this.laser.rotation);
 
         this.laser.b = this.rotatepoint({
-                x: this.sprite.centerX,
-                y: this.sprite.centerY,
-            }, {
-                x: this.laser.globalBounds.width,
-                y: this.laser.globalBounds.height,
-            },
-            this.sprite.rotation
-        );
+            x: this.sprite.centerX,
+            y: this.sprite.centerY,
+        }, {
+            x: this.laser.globalBounds.width,
+            y: this.laser.globalBounds.height - 14,
+        }, -this.laser.rotation);
+
+        // this.test1.x = this.laser.a.x;
+        // this.test1.y = this.laser.a.y;
+
+        // this.test2.x = this.laser.b.x;
+        // this.test2.y = this.laser.b.y;
     }
     die() {
         this.frame = 1;
         this.vx *= 0.1;
         this.vy *= 0.1;
+        this.alive = false;
     }
     respawn() {}
 }
