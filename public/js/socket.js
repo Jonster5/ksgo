@@ -74,10 +74,10 @@ gws.onmessage = ({ data }) => {
                 dat[9] === 'true' || dat[9] === undefined ? true : false,
             ], [dat[10] === 'true' ? true : false]
         );
-        if (dat[11].split(' ').some((x) => x === user.id)) {
-            user.die();
-            user.alive = false;
-        }
+        // if (dat[11].split(' ').some((x) => x === user.id)) {
+        //     user.die();
+        //     user.alive = false;
+        // }
     });
 };
 
