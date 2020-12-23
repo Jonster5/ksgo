@@ -43,15 +43,15 @@ function Animate(timestamp) {
                 });
             }
 
-            // let distance = Math.hypot(
-            //     canvas.width / 2 - user.sprite.x,
-            //     canvas.height / 2 - user.sprite.x
-            // );
+            let distance = Math.hypot(
+                canvas.width / 2 - user.sprite.x,
+                canvas.height / 2 - user.sprite.x
+            );
 
-            // if (distance <= 40) {
-            //     user.health = 0;
-            //     user.die();
-            // }
+            if (distance <= 40) {
+                user.health = 0;
+                user.die();
+            }
 
             // console.log(hitarr.join(' '));
 
