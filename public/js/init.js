@@ -5,8 +5,8 @@ const healthmeter = document.getElementById('healthmeter');
 
 const canvas = new Pebble.Canvas(
     gamewindow,
-    4000,
-    2000,
+    1500,
+    750,
     'none',
     'url(images/backgr.png)'
 );
