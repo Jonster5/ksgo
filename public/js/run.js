@@ -2,6 +2,8 @@
 
 let animator;
 
+const sun = new Star();
+
 function Animate(timestamp) {
     animator = requestAnimationFrame(Animate);
 
@@ -39,6 +41,16 @@ function Animate(timestamp) {
                     );
                     if (hit) hitarr.push(u.id);
                 });
+            }
+
+            let distance = Math.hypot(
+                canvas.width / 2 - user.x,
+                canvas.height / 2 - user.y
+            );
+
+            if (distance <= 25) {
+                user.health = 0;
+                user.die();
             }
 
             // console.log(hitarr.join(' '));

@@ -38,6 +38,7 @@ Pebble.interpolationData.FPS = 60;
         'js/user.js',
         'js/remote.js',
         'js/socket.js',
+        'js/mapobj.js',
         'images/ship.png',
         'images/ship_remote.png',
         'images/shipfire.png',
@@ -47,6 +48,7 @@ Pebble.interpolationData.FPS = 60;
     await assets['js/ship.js'].execute();
     await assets['js/user.js'].execute();
     await assets['js/remote.js'].execute();
+    await assets['js/mapobj.js'].execute();
     await assets['js/socket.js'].execute();
     await assets['js/run.js'].execute();
 })();

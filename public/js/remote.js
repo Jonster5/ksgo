@@ -82,5 +82,9 @@ class Remote extends Ship {
         this.height = 40;
         this.vx *= 0.1;
         this.vy *= 0.1;
+        this.sprite.exhaust.visible = false;
+        this.sprite.trailL.visible = false;
+        this.sprite.trailR.visible = false;
+        this.laser.visible = false;
     }
 }

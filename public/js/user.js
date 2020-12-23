@@ -3,6 +3,9 @@ class User extends Ship {
     constructor() {
         super(stage, 100, 100);
 
+        this.x = Math.floor(Math.random() * canvas.width);
+        this.y = Math.floor(Math.random() * canvas.height);
+
         this.energycooldown = false;
         this.einteral;
 
@@ -188,6 +191,23 @@ class User extends Ship {
         this.rotation += this.rotationSpeed;
         this.rotation = this.rotation % (Math.PI * 2);
 
+        let dx = canvas.width / 2 - this.x,
+            dy = canvas.height / 2 - this.y;
+        let angle = Math.atan2(dy, dx);
+        let distance = Math.hypot(
+            canvas.width / 2 - this.x,
+            canvas.height / 2 - this.y
+        );
+
+        this.vx +=
+            this.acceleration *
+            Math.abs(1 - (distance * 0.13) / 100) *
+            Math.cos(angle);
+        this.vy +=
+            this.acceleration *
+            Math.abs(1 - (distance * 0.13) / 100) *
+            Math.sin(angle);
+
         this.vx *= this.frictionX;
         this.vy *= this.frictionY;
 
@@ -252,6 +272,10 @@ class User extends Ship {
         this.vx *= 0.1;
         this.vy *= 0.1;
         this.alive = false;
+        this.sprite.exhaust.visible = false;
+        this.sprite.trailL.visible = false;
+        this.sprite.trailR.visible = false;
+        this.laser.visible = false;
     }
     respawn() {}
 }
