@@ -10,12 +10,7 @@ function Animate(timestamp) {
         stage,
         true,
         Pebble.getLagOffset(timestamp, () => {
-            if (!(
-                    aws.readyState === WebSocket.OPEN &&
-                    user.id &&
-                    gws.readyState === WebSocket.OPEN
-                ))
-                return;
+            if (!user) return;
 
             if (user.alive) {
                 user.prep();
