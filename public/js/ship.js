@@ -57,23 +57,23 @@ class Ship {
         this.laser.visible = false;
 
         this.laser.a = this.rotatepoint({
-                x: this.sprite.centerX,
-                y: this.sprite.centerY,
+                x: this.x,
+                y: this.y,
             }, {
-                x: this.laser.globalBounds.x,
-                y: this.laser.globalBounds.y - 2,
+                x: this.x,
+                y: this.y,
             },
-            this.sprite.rotation
+            this.rotation
         );
 
         this.laser.b = this.rotatepoint({
-                x: this.sprite.centerX,
-                y: this.sprite.centerY,
+                x: this.x,
+                y: this.y,
             }, {
-                x: this.laser.globalBounds.width,
-                y: this.laser.globalBounds.height - 2,
+                x: this.x + 200,
+                y: this.y,
             },
-            this.sprite.rotation
+            this.rotation
         );
 
         this.stage.add(this.laser);
@@ -94,8 +94,8 @@ class Ship {
         this.moveForward = false;
     }
     rotatepoint(c, p, radians) {
-        let cos = Math.cos(radians),
-            sin = Math.sin(radians),
+        let cos = Math.cos(-radians),
+            sin = Math.sin(-radians),
             nx = cos * (p.x - c.x) + sin * (p.y - c.y) + c.x,
             ny = cos * (p.y - c.y) - sin * (p.x - c.x) + c.y;
         return {

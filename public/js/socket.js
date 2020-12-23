@@ -76,7 +76,7 @@ gws.onmessage = async({ data }) => {
         );
         const hit = dat[11] ? dat[11] : ' ';
         if (hit.split(' ').some((x) => x === user.id)) {
-            user.health--;
+            user.health -= 3;
         }
     });
 };

@@ -222,20 +222,24 @@ class User extends Ship {
         this.laser.rotation = this.sprite.rotation;
 
         this.laser.a = this.rotatepoint({
-            x: this.sprite.centerX,
-            y: this.sprite.centerY,
-        }, {
-            x: this.laser.globalBounds.x,
-            y: this.laser.globalBounds.y - 12,
-        }, -this.laser.rotation);
+                x: this.x,
+                y: this.y,
+            }, {
+                x: this.x,
+                y: this.y,
+            },
+            this.rotation
+        );
 
         this.laser.b = this.rotatepoint({
-            x: this.sprite.centerX,
-            y: this.sprite.centerY,
-        }, {
-            x: this.laser.globalBounds.width,
-            y: this.laser.globalBounds.height - 14,
-        }, -this.laser.rotation);
+                x: this.x,
+                y: this.y,
+            }, {
+                x: this.x + 200,
+                y: this.y,
+            },
+            this.rotation
+        );
 
         // this.test1.x = this.laser.a.x;
         // this.test1.y = this.laser.a.y;

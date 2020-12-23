@@ -78,6 +78,8 @@ class Remote extends Ship {
     }
     kill() {
         this.frame = 1;
+        this.width = 40;
+        this.height = 40;
         this.vx *= 0.1;
         this.vy *= 0.1;
     }
