@@ -4,8 +4,8 @@
 // const gws = new WebSocket('ws://192.168.1.157:8000/game');
 // const aws = new WebSocket('wss://ksgo-c8d37.web.app/stat');
 // const gws = new WebSocket('wss://ksgo-c8d37.web.app/game');
-const aws = new WebSocket('wss://ksgo.herokuapp.com/stat');
-const gws = new WebSocket('wss://ksgo.herokuapp.com/game');
+const aws = new WebSocket('wss://ksgo-legacy.herokuapp.com/stat');
+const gws = new WebSocket('wss://ksgo-legacy.herokuapp.com/game');
 
 const format = (a = '', b) => JSON.stringify({ id: a, content: b });
 const parse = (a = '') => JSON.parse(a);
